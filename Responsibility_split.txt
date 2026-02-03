@@ -1,0 +1,9 @@
+| Stage                      | Who does it |
+| -------------------------- | ----------- |
+| Data selection             | You         |
+| Preprocessing (OpenCV)     | You         |
+| Dataset splitting          | You         |
+| Feature learning           | Model       |
+| Pattern recognition        | Model       |
+| Severity prediction        | Model       |
+| Interpretation & reporting | You         |
