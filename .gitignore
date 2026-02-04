@@ -17,3 +17,6 @@ venv/
 # Ignore OS files
 .DS_Store
 Thumbs.db
+
+# Ignore logs
+command_env.txt
