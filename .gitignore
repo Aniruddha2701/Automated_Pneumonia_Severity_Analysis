@@ -1,24 +1,56 @@
 # Ignore datasets (large files)
+# =========================
+# DATASETS
+# =========================
 Dataset/Raw/
 Dataset/Processed/
 Dataset/Pool/
 Dataset/Final/
 
-# Ignore notebooks checkpoints
+# =========================
+# NOTEBOOK CHECKPOINTS
+# =========================
 .ipynb_checkpoints/
 
-# Ignore Python cache
+# =========================
+# PYTHON CACHE
+# =========================
 __pycache__/
+*.py[cod]
 *.pyc
 
-# Ignore environment files
-.env
+# =========================
+# VIRTUAL ENVIRONMENT
+# =========================
 venv/
-.env/
+.env
 
-# Ignore OS files
+# =========================
+# MODEL FILES (CRITICAL)
+# =========================
+*.pt
+*.pth
+*.h5
+*.ckpt
+*.onnx
+*.pkl
+*.joblib
+
+# =========================
+# LOG FILES
+# =========================
+*.log
+command_env.txt
+
+# =========================
+# IDE
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# OS FILES
+# =========================
 .DS_Store
 Thumbs.db
-
-# Ignore logs
-command_env.txt
+desktop.ini
