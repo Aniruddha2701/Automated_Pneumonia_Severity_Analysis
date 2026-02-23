@@ -1,6 +1,8 @@
 # Ignore datasets (large files)
 Dataset/Raw/
 Dataset/Processed/
+Dataset/Pool/
+Dataset/Final/
 
 # Ignore notebooks checkpoints
 .ipynb_checkpoints/

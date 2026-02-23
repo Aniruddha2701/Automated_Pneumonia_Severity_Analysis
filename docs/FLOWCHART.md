@@ -1,6 +1,6 @@
 # File Tree: Automated_Pneumonia_Severity_Analysis
 
-**Generated:** 2/4/2026, 9:53:16 PM
+**Generated:** 2/23/2026, 9:22:56 PM
 **Root Path:** `d:\Automated_Pneumonia_Severity_Analysis`
 
 ```
@@ -11,9 +11,10 @@
 │   └── 🐍 paths.py
 ├── 📁 data_preparation
 │   ├── 📝 README.md
-│   ├── 🐍 label_mapping.py
-│   └── 🐍 split_data.py
+│   ├── 🐍 create_multiclass_dataset.py
+│   └── 🐍 train_test_val_split.py
 ├── 📁 docs
+│   ├── 📝 FLOWCHART.md
 │   ├── 📄 PPT_Presentation.pptx
 │   └── 📘 Project_Report.docx
 ├── 📁 model
