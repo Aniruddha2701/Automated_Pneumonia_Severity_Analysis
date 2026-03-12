@@ -1,6 +1,7 @@
 import os
 import shutil
 import random
+from tqdm import tqdm
 
 # =========================
 # CONFIGURATION
@@ -18,6 +19,8 @@ PNEUMONIA_SRC = os.path.join(POOL_DIR, "Pneumonia")
 NORMAL_DST = os.path.join(RAW_DIR, "Normal")
 MILD_DST = os.path.join(RAW_DIR, "Mild")
 SEVERE_DST = os.path.join(RAW_DIR, "Severe")
+
+VALID_EXTENSIONS = (".png", ".jpg", ".jpeg")
 
 # =========================
 # SET RANDOM SEED
@@ -37,8 +40,14 @@ os.makedirs(SEVERE_DST, exist_ok=True)
 # LOAD FILE LISTS
 # =========================
 
-normal_files = os.listdir(NORMAL_SRC)
-pneumonia_files = os.listdir(PNEUMONIA_SRC)
+def load_images(folder):
+    return [
+        f for f in os.listdir(folder)
+        if f.lower().endswith(VALID_EXTENSIONS)
+    ]
+
+normal_files = load_images(NORMAL_SRC)
+pneumonia_files = load_images(PNEUMONIA_SRC)
 
 print(f"Total Normal available: {len(normal_files)}")
 print(f"Total Pneumonia available: {len(pneumonia_files)}")
@@ -74,18 +83,22 @@ selected_severe = pneumonia_files[TARGET_PER_CLASS:TARGET_PER_CLASS * 2]
 # =========================
 
 def copy_files(file_list, src_dir, dst_dir):
-    for filename in file_list:
+
+    for filename in tqdm(file_list, desc=f"Copying to {dst_dir}"):
+
         src_path = os.path.join(src_dir, filename)
         dst_path = os.path.join(dst_dir, filename)
-        shutil.copy2(src_path, dst_path)
 
-print("Copying Normal images...")
+        if not os.path.exists(dst_path):  # prevent duplicates
+            shutil.copy2(src_path, dst_path)
+
+print("\nCopying Normal images...")
 copy_files(selected_normal, NORMAL_SRC, NORMAL_DST)
 
-print("Copying Mild images...")
+print("\nCopying Mild images...")
 copy_files(selected_mild, PNEUMONIA_SRC, MILD_DST)
 
-print("Copying Severe images...")
+print("\nCopying Severe images...")
 copy_files(selected_severe, PNEUMONIA_SRC, SEVERE_DST)
 
 # =========================
