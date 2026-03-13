@@ -1,11 +1,37 @@
-from torchvision.datasets import ImageFolder
-from torch.utils.data import DataLoader
-from preprocessing.transforms import train_transform, val_test_transform
+import torch.nn as nn
+from torchvision import models
 
-train_dataset = ImageFolder("Dataset/Final/train", transform=train_transform)
-val_dataset = ImageFolder("Dataset/Final/val", transform=val_test_transform)
-test_dataset = ImageFolder("Dataset/Final/test", transform=val_test_transform)
 
-train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
-val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False)
-test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)
+def build_model(num_classes=3):
+
+    # =========================
+    # LOAD PRETRAINED DENSENET
+    # =========================
+
+    model = models.densenet121(weights=models.DenseNet121_Weights.IMAGENET1K_V1)
+
+    # =========================
+    # FREEZE BACKBONE
+    # =========================
+
+    for param in model.features.parameters():
+        param.requires_grad = False
+
+
+    # =========================
+    # REPLACE CLASSIFIER
+    # =========================
+
+    num_features = model.classifier.in_features
+
+    model.classifier = nn.Sequential(
+
+        nn.Linear(num_features, 512),
+        nn.ReLU(),
+        nn.Dropout(0.4),
+
+        nn.Linear(512, num_classes)
+
+    )
+
+    return model
