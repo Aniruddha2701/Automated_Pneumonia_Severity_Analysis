@@ -39,7 +39,7 @@ val_dataset = ImageFolder("Dataset/Final/val", transform=val_test_transform)
 train_loader = DataLoader(
     train_dataset, 
     batch_size=BATCH_SIZE, 
-    shuffle=True
+    shuffle = True,
     num_workers=4,
     pin_memory=True
 )
