@@ -5,7 +5,7 @@ from torchvision.datasets import ImageFolder
 from torch.utils.data import DataLoader
 import os
 
-from model import build_model
+from model.model import build_model
 from preprocessing.transforms import train_transform, val_test_transform
 
 # =========================
@@ -39,15 +39,15 @@ val_dataset = ImageFolder("Dataset/Final/val", transform=val_test_transform)
 train_loader = DataLoader(
     train_dataset, 
     batch_size=BATCH_SIZE, 
-    shuffle = True,
+    shuffle=True,
     num_workers=4,
     pin_memory=True
 )
 val_loader = DataLoader(val_dataset, 
-batch_size=BATCH_SIZE, 
-shuffle=False, 
-num_workers=4, 
-pin_memory=True
+    batch_size=BATCH_SIZE, 
+    shuffle=False, 
+    num_workers=4, 
+    pin_memory=True
 )
 
 print("Class Mapping:", train_dataset.class_to_idx)
@@ -95,8 +95,8 @@ for epoch in range(start_epoch, EPOCHS):
 
     for images, labels in train_loader:
 
-        images, labels = images.to(DEVICE), 
-        labels.to(DEVICE)
+        images = images.to(DEVICE) 
+        labels = labels.to(DEVICE)
 
         optimizer.zero_grad()
 
@@ -127,7 +127,8 @@ for epoch in range(start_epoch, EPOCHS):
     
         for images, labels in val_loader:
 
-            images, labels = images.to(DEVICE), labels.to(DEVICE)
+            images = images.to(DEVICE)
+            labels = labels.to(DEVICE)
 
             outputs = model(images)
             _, predicted = torch.max(outputs, 1)
