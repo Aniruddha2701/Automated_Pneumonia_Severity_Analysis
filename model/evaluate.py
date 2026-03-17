@@ -33,13 +33,31 @@ all_preds = []
 all_labels = []
 
 # =========================
+# LOAD TEST DATA
+# =========================
+
+test_dataset = ImageFolder(
+    root=TEST_DIR,
+    transform=val_test_transform
+)
+
+test_loader = DataLoader(
+    test_dataset,
+    batch_size=64,
+    shuffle=False,
+    num_workers=4,
+    pin_memory=True
+)
+
+# =========================
 # PREDICT LOOP
 # =========================
 
 with torch.no_grad():
 
     for images, labels in test_loader:
-        images, labels = images.to(DEVICE), labels.to(DEVICE)
+        images = images.to(DEVICE, non_blocking=True)
+        labels = labels.to(DEVICE, non_blocking=True)
 
         outputs = model(images)
 
@@ -55,6 +73,12 @@ with torch.no_grad():
 all_preds = np.array(all_preds)
 all_labels = np.array(all_labels)
 
+# =========================
+# ACCURACY
+# =========================
+
+accuracy = (all_preds == all_labels).mean()
+print(f"\n Overall Accuracy: {accuracy*100:.2f}%")
 # =========================
 # CLASSIFICATION REPORT
 # =========================      
@@ -88,6 +112,7 @@ sns.heatmap(
 plt.xlabel("Predicted")
 plt.ylabel("True")
 plt.title("Confusion Matrix")
-
+plt.tight_layout()
 plt.savefig("results/metrics/confusion_matrix.png")
 print("\n Confusion matrix saved.")
+plt.close()
