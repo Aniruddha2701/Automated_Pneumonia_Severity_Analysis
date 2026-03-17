@@ -54,3 +54,8 @@ command_env.txt
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Results (except selected ones)
+results/*
+!results/Heatmaps/
+!results/metrics/
