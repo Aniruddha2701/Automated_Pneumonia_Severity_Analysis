@@ -1,172 +1,261 @@
 # 🧭 Project Working Sequence Guide
-## Automated Pneumonia Severity Analysis from Chest X-Ray Images
-### using Deep Learning and Image Processing Techniques
+
+## Automated Pneumonia Severity Analysis with Explainable AI
+
+### (Deep Learning + Grad-CAM + Interactive UI)
 
 ---
 
 ## 1. Purpose of This Document
 
-This document explains the **actual working sequence** of the project,
-independent of folder structure. It clarifies **what is done first, why it is
-done, and how it connects to the next step**.
+This document defines the **actual working pipeline** of the project as implemented in its final form.
 
-This guide is intended for:
-- future reference
-- public repository clarity
-- academic evaluation
-- viva explanation
+It explains:
 
----
+* execution order of operations
+* interaction between components
+* role of preprocessing, model, and explainability
+* how the UI integrates the entire system
 
-## 2. High-Level Working Flow
+This serves as:
 
-Dataset Discovery
-→ Raw Data Storage
-→ Image Preprocessing
-→ Processed Data Generation
-→ Dataset Preparation
-→ Deep Learning Model Training
-→ Evaluation & Analysis
-
-This flow represents the **real-world execution order** of the project.
+* academic reference
+* viva explanation guide
+* repository documentation
 
 ---
 
-## 3. Step-by-Step Working Sequence
+## 2. Updated High-Level Flow
+
+Dataset Collection
+→ Preprocessing Strategy
+→ Model Training
+→ Model Evaluation
+→ Explainability Integration (Grad-CAM)
+→ Deployment via UI (Streamlit)
+→ Real-Time Inference Pipeline
 
 ---
 
-### 🔹 Step 1: Dataset Discovery
+## 3. Two Core Phases of the Project
 
-The project begins by identifying a **publicly available chest X-ray dataset**
-relevant to pneumonia analysis.
+### 🧪 Phase 1: Model Development (Offline)
 
-**Key actions:**
-- Identify reliable academic datasets
-- Verify licensing and public availability
-- Understand class labels and limitations
+This phase includes:
 
-📌 *No coding is done at this stage.*
+* dataset handling
+* preprocessing
+* training
+* evaluation
 
----
-
-### 🔹 Step 2: Raw Data Storage
-
-Once the dataset is selected, it is stored **without modification**.
-
-📁 Location:
-    Dataset/Raw/
-
-
-**Why this is important:**
-- Preserves original data integrity
-- Allows reproducibility
-- Acts as a permanent reference
-
-> ⚠️ Raw data must never be altered.
+👉 Happens once during development
 
 ---
 
-### 🔹 Step 3: Image Preprocessing Design
+### ⚡ Phase 2: Inference System (Online / UI)
 
-Before modifying any images, preprocessing steps are **designed conceptually**.
+This phase includes:
 
-This includes deciding:
-- image size
-- normalization strategy
-- noise handling
-- contrast enhancement
+* image upload
+* preprocessing
+* prediction
+* Grad-CAM visualization
 
-📌 This stage defines **what will be done**, not execution.
-
----
-
-### 🔹 Step 4: Processed Data Generation
-
-Using the preprocessing design, raw images are converted into a processed format.
-
-📁 Output location:
-    Dataset/Processed/
-
-**Result:**
-- uniform image size
-- enhanced image quality
-- model-ready data
+👉 Happens every time user interacts with UI
 
 ---
 
-### 🔹 Step 5: Dataset Preparation
-
-Processed images are then:
-- labeled into severity categories
-- organized into class folders
-- split into training and testing sets
-
-📁 Module:
-    data_preparation/
-
-This stage prepares the data **for supervised learning**.
+## 4. Detailed Working Sequence
 
 ---
 
-### 🔹 Step 6: Deep Learning Model Training
+### 🔹 Step 1: Dataset Collection
 
-The deep learning model is trained using the prepared dataset.
+A publicly available chest X-ray dataset is selected.
 
-📁 Module:
-    model/
+**Key considerations:**
 
-At this stage:
-- the model learns features automatically
-- no manual feature extraction is performed
+* medical relevance
+* class distribution (Mild, Normal, Severe)
+* data quality
+
+📌 No processing is done here.
 
 ---
 
-### 🔹 Step 7: Evaluation and Analysis
+### 🔹 Step 2: Data Organization
 
-Finally, model predictions are evaluated using standard metrics.
+Dataset is structured into class-wise directories.
+
+Example:
+
+```id="l1t3y0"
+Dataset/
+  ├── Mild/
+  ├── Normal/
+  └── Severe/
+```
+
+---
+
+### 🔹 Step 3: Preprocessing Strategy
+
+Preprocessing is designed to improve image quality and consistency.
+
+**Techniques used:**
+
+* Resizing → (224 × 224)
+* CLAHE → enhances contrast in X-rays
+* Normalization → stabilizes model input
+
+👉 This step defines how images are transformed before model input
+
+---
+
+### 🔹 Step 4: Model Training
+
+A DenseNet-based CNN is trained on the processed dataset.
+
+**Model learns:**
+
+* texture patterns
+* opacity regions
+* structural abnormalities
+
+📌 Feature extraction is automatic (deep learning)
+
+---
+
+### 🔹 Step 5: Model Evaluation
+
+Model performance is measured using:
+
+* Accuracy
+* Classification Report
+* Confusion Matrix
 
 📁 Outputs:
-    results/
 
-This stage focuses on:
-- performance analysis
-- limitations
-- academic interpretation
+```id="r7d3f2"
+results/metrics/
+```
 
 ---
 
-## 4. Responsibility Split (Very Important)
+### 🔹 Step 6: Explainability Integration (Grad-CAM)
 
-| Task | Responsibility |
-|---|---|
-| Dataset discovery | Student |
-| Raw data storage | Student |
-| Preprocessing design | Student |
-| Processed data creation | Student |
-| Dataset preparation | Student |
-| Feature learning | Deep Learning Model |
-| Severity classification | Deep Learning Model |
-| Result interpretation | Student |
+Grad-CAM is integrated to visualize model decision-making.
 
-> 🔐 *The student controls data and system design, while the model performs
-> automatic learning and classification.*
+**Function:**
+
+* identifies important regions in image
+* maps model attention
+* improves interpretability
+
+📌 This is a key enhancement over standard models
 
 ---
 
-## 5. Key Clarification
+### 🔹 Step 7: Deployment via Streamlit UI
 
-> **Folders may exist before execution, but work always follows the sequence
-> described above.**
+A user interface is built to integrate the full pipeline.
 
-This distinction prevents confusion during implementation and evaluation.
+**User can:**
+
+* upload X-ray image
+* get prediction
+* view heatmap
 
 ---
 
-## 6. Final Note
+### 🔹 Step 8: Real-Time Inference Pipeline (CRITICAL)
 
-This guide serves as the **single reference** for understanding how the project
-progresses from raw data to final results.
+This is the **actual runtime flow** when user uploads an image:
+
+---
+
+## 🔄 Real-Time Execution Flow
+
+```id="1f6l7k"
+User Upload Image
+        ↓
+Image Preprocessing (Resize + CLAHE + Normalize)
+        ↓
+Model Prediction (Mild / Normal / Severe)
+        ↓
+Confidence Score Calculation
+        ↓
+Grad-CAM Generation
+        ↓
+Overlay Heatmap on Image
+        ↓
+Display Results in UI
+```
+
+---
+
+## 5. System Responsibility Split
+
+| Component      | Responsibility                         |
+| -------------- | -------------------------------------- |
+| Student        | Data preparation, preprocessing design |
+| Model          | Feature extraction & classification    |
+| Grad-CAM       | Visual explanation of predictions      |
+| UI (Streamlit) | User interaction & visualization       |
+
+---
+
+## 6. Key Clarifications
+
+### 🔸 No Separate “Processed Dataset” Stored
+
+Preprocessing is applied **dynamically using transforms**, not saved images.
+
+👉 This improves:
+
+* efficiency
+* storage usage
+* flexibility
+
+---
+
+### 🔸 Model Does Not Use Manual Features
+
+All features are learned automatically by CNN.
+
+---
+
+### 🔸 Grad-CAM is Post-Prediction
+
+It does NOT affect prediction
+It only explains it
+
+---
+
+## 7. Final System Summary
+
+The project is not just a classifier but an **Explainable AI System**.
+
+```id="c5lgk8"
+Input Image → Model → Prediction → Explanation → Visualization
+```
+
+---
+
+## 8. Conclusion
+
+This workflow represents the complete transformation:
+
+```id="6rbn3g"
+Raw X-ray → Processed Input → Learned Features → Prediction → Visual Explanation
+```
+
+The system ensures both:
+
+* accuracy
+* interpretability
+
+making it suitable for academic and research use.
 
 ---
 
