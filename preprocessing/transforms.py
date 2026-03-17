@@ -31,6 +31,9 @@ class CLAHETransform:
 
         return Image.fromarray(img)
 
+class ToRGB:
+    def __call__(self, img):
+        return img.convert("RGB")
 
 # =========================
 # TRAIN TRANSFORM
@@ -38,7 +41,7 @@ class CLAHETransform:
 
 train_transform = transforms.Compose([
 
-    transforms.Lambda(lambda img: img.convert("RGB")),
+    ToRGB(),
 
     CLAHETransform(),
 
@@ -61,7 +64,7 @@ train_transform = transforms.Compose([
 
 val_test_transform = transforms.Compose([
 
-    transforms.Lambda(lambda img: img.convert("RGB")),
+    ToRGB(),
 
     CLAHETransform(),
 
